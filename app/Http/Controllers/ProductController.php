@@ -2,7 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
+use App\Models\Product;
+use Illuminate\View\View;
+use Illuminate\Http\RedirectResponse;
+use App\Http\Requests\StoreProductRequest;
+use App\Http\Requests\UpdateProductRequest;
+
+
 
 class ProductController extends Controller
 {
@@ -40,7 +46,7 @@ class ProductController extends Controller
     public function show(Product $product) : View
     {
         return view('products.show', [
-            'product' => $products
+            'product' => $product
         ]);
     }
 
@@ -50,7 +56,7 @@ class ProductController extends Controller
     public function edit(Product $product) : View
     {
         return view('products.edit', [
-            'products' => $product
+            'product' => $product
         ]);
     }
 
@@ -67,10 +73,10 @@ class ProductController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Product) : RedirectResponse
+    public function destroy(Product $product) : RedirectResponse
     {
-        $product->delete();
-        return redirect()->route('index')
-                ->withSuccess('Product is deleted successfully.');
+    $product->delete();
+    return redirect()->route('index')
+           ->withSuccess('Product is deleted successfully.');
     }
 }
