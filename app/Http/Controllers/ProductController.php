@@ -2,13 +2,13 @@
 
 namespace App\Http\Controllers;
 
+
+use App\Http\Controllers\Controller;
 use App\Models\Product;
 use Illuminate\View\View;
 use Illuminate\Http\RedirectResponse;
 use App\Http\Requests\StoreProductRequest;
 use App\Http\Requests\UpdateProductRequest;
-
-
 
 class ProductController extends Controller
 {
@@ -17,7 +17,7 @@ class ProductController extends Controller
      */
     public function index() : View
     {
-        return view('index', [
+        return view('products.index', [
             'products' => Product::latest()->paginate(3)
         ]);
     }
@@ -36,7 +36,7 @@ class ProductController extends Controller
     public function store(StoreProductRequest $request) : RedirectResponse
     {
         Product::create($request->all());
-        return redirect()->route('index')
+        return redirect()->route('products.index')
                 ->withSuccess('New product is added successfully.');
     }
 
@@ -46,7 +46,7 @@ class ProductController extends Controller
     public function show(Product $product) : View
     {
         return view('products.show', [
-            'product' => $product
+            'products' => $product
         ]);
     }
 
@@ -75,8 +75,8 @@ class ProductController extends Controller
      */
     public function destroy(Product $product) : RedirectResponse
     {
-    $product->delete();
-    return redirect()->route('index')
-           ->withSuccess('Product is deleted successfully.');
+        $product->delete();
+        return redirect()->route('products.index')
+                ->withSuccess('Product is deleted successfully.');
     }
 }
